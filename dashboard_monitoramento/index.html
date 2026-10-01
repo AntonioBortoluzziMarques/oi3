@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitoramento Ambiental</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <div>
+        <strong>Monitoramento</strong>
+        <span>Ambiental</span>
+      </div>
+    </div>
+
+    <nav>
+      <a class="nav-item active" href="#dashboard">
+        <span>▦</span> Dashboard
+      </a>
+      <a class="nav-item" href="#historico">
+        <span>◷</span> Histórico
+      </a>
+      <a class="nav-item" href="#sensores">
+        <span>⌁</span> Sensores
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="connection">
+        <span class="status-dot"></span>
+        <div>
+          <strong id="connection-label">Aguardando dados</strong>
+          <small id="last-update">Nenhuma leitura carregada</small>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">MONITORAMENTO</p>
+        <h1>Dashboard ambiental</h1>
+      </div>
+      <div class="top-actions">
+        <button class="icon-button" id="refresh-button" title="Atualizar dados">↻</button>
+        <div class="user-badge">M</div>
+      </div>
+    </header>
+
+    <section id="dashboard">
+      <div class="section-heading">
+        <div>
+          <h2>Visão geral</h2>
+          <p>Dados recebidos do sistema de monitoramento.</p>
+        </div>
+        <div class="period">
+          <button class="period-button active" data-period="24h">24h</button>
+          <button class="period-button" data-period="7d">7 dias</button>
+          <button class="period-button" data-period="30d">30 dias</button>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <article class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon temperature">°</span>
+            <span class="metric-name">Temperatura</span>
+          </div>
+          <div class="metric-value empty" id="temperature-value">--</div>
+          <div class="metric-footer"><span>Última leitura</span><span id="temperature-time">--</span></div>
+        </article>
+
+        <article class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon humidity">%</span>
+            <span class="metric-name">Umidade</span>
+          </div>
+          <div class="metric-value empty" id="humidity-value">--</div>
+          <div class="metric-footer"><span>Última leitura</span><span id="humidity-time">--</span></div>
+        </article>
+
+        <article class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon pressure">P</span>
+            <span class="metric-name">Pressão</span>
+          </div>
+          <div class="metric-value empty" id="pressure-value">--</div>
+          <div class="metric-footer"><span>Última leitura</span><span id="pressure-time">--</span></div>
+        </article>
+
+        <article class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon wind">↝</span>
+            <span class="metric-name">Vento</span>
+          </div>
+          <div class="metric-value empty" id="wind-value">--</div>
+          <div class="metric-footer"><span>Última leitura</span><span id="wind-time">--</span></div>
+        </article>
+      </div>
+
+      <div class="content-grid">
+        <section class="panel chart-panel">
+          <div class="panel-header">
+            <div>
+              <h3>Temperatura</h3>
+              <p>Variação ao longo do período selecionado</p>
+            </div>
+            <span class="unit">°C</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="temperature-chart"></canvas>
+            <div class="chart-empty" id="temperature-empty">
+              <span>∿</span>
+              <strong>Sem dados</strong>
+              <small>O gráfico será preenchido quando houver leituras no banco.</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel chart-panel">
+          <div class="panel-header">
+            <div>
+              <h3>Umidade</h3>
+              <p>Variação ao longo do período selecionado</p>
+            </div>
+            <span class="unit">%</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="humidity-chart"></canvas>
+            <div class="chart-empty" id="humidity-empty">
+              <span>∿</span>
+              <strong>Sem dados</strong>
+              <small>O gráfico será preenchido quando houver leituras no banco.</small>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel readings-panel">
+        <div class="panel-header">
+          <div>
+            <h3>Últimas leituras</h3>
+            <p>Registros mais recentes recebidos do sistema.</p>
+          </div>
+          <span class="record-count" id="record-count">0 registros</span>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Data / hora</th>
+                <th>Temperatura</th>
+                <th>Umidade</th>
+                <th>Pressão</th>
+                <th>Vento</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="readings-table">
+              <tr class="empty-row">
+                <td colspan="6">
+                  <div class="table-empty">
+                    <strong>Nenhuma leitura disponível</strong>
+                    <span>Conecte o endpoint do banco em <code>app.js</code>.</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <footer>
+      <span>Monitoramento Ambiental</span>
+      <span>Interface de dados</span>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
