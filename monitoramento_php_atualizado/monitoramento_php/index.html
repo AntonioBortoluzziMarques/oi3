@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102820">
+<title>Monitoramento Ambiental</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand"><div class="logo">◈</div><div><b>Ambiental</b><small>Monitoramento</small></div></div>
+  <nav><a class="active" href="#dashboard">▦ <span>Dashboard</span></a><a href="#historico">◷ <span>Histórico</span></a><a href="#estacoes">⌁ <span>Caixas</span></a></nav>
+  <div class="side-status"><i id="status-dot"></i><div><b id="status-text">Aguardando dados</b><small id="status-detail">Conectando à API</small></div></div>
+</aside>
+<main>
+<header>
+  <div><label>CENTRAL DE MONITORAMENTO</label><h1>Dashboard ambiental</h1></div>
+  <div class="head-right"><small>Última leitura<br><b id="last-update">--</b></small><button id="refresh" aria-label="Atualizar dados">↻</button></div>
+</header>
+<section class="toolbar">
+  <div><label for="station">CAIXA</label><select id="station"><option value="all">Todas as caixas</option></select></div>
+  <div><label>PERÍODO</label><div class="periods"><button class="active" data-p="24h">24 horas</button><button data-p="7d">7 dias</button><button data-p="30d">30 dias</button></div></div>
+</section>
+<section id="dashboard">
+<div class="title"><div><h2>Condições atuais</h2><p>Último valor conhecido para cada sensor.</p></div><span class="live">● Dados do banco</span></div>
+<div class="metrics">
+  <article><div class="icon">°</div><span>Temperatura</span><strong id="temperature">--</strong><em id="temperature-unit">°C</em><small>Última leitura <b id="temperature-time">--</b></small></article>
+  <article><div class="icon">%</div><span>Umidade relativa</span><strong id="humidity">--</strong><em id="humidity-unit">%</em><small>Última leitura <b id="humidity-time">--</b></small></article>
+  <article><div class="icon">P</div><span>Pressão atmosférica</span><strong id="pressure">--</strong><em id="pressure-unit">hPa</em><small>Última leitura <b id="pressure-time">--</b></small></article>
+  <article><div class="icon">▣</div><span>Caixas ativas</span><strong id="active">--</strong><em>caixas</em><small>Status <b id="active-status">--</b></small></article>
+</div>
+<div class="charts">
+  <article class="panel"><div class="panel-head"><div><h3>Temperatura</h3><p>Histórico do período selecionado</p></div><b id="temp-chart-unit">°C</b></div><div class="chart"><canvas id="temp-chart"></canvas><div class="empty" id="temp-empty">∿<strong>Sem dados</strong><span>As leituras de temperatura aparecerão aqui quando existirem no banco.</span></div></div></article>
+  <article class="panel"><div class="panel-head"><div><h3>Umidade relativa</h3><p>Histórico do período selecionado</p></div><b id="hum-chart-unit">%</b></div><div class="chart"><canvas id="hum-chart"></canvas><div class="empty" id="hum-empty">∿<strong>Sem dados</strong><span>As leituras de umidade aparecerão aqui quando existirem no banco.</span></div></div></article>
+</div>
+<article class="panel table-panel" id="historico">
+<div class="panel-head"><div><h3>Leituras recentes</h3><p>Valores registrados pela tabela leitura.</p></div><b id="count">0 registros</b></div>
+<div class="scroll"><table><thead><tr><th>Caixa</th><th>Data / hora</th><th>Temperatura</th><th>Umidade</th><th>Pressão</th><th>Coleta</th></tr></thead><tbody id="table"><tr><td colspan="6"><div class="empty-table"><strong>Nenhuma leitura disponível</strong><span>Quando houver registros no banco, eles serão exibidos aqui.</span></div></td></tr></tbody></table></div>
+</article>
+<section id="estacoes"><div class="title"><div><h2>Caixas de sensores</h2><p>Dispositivos cadastrados na tabela mac.</p></div></div><div class="stations" id="stations"><div class="empty-station">Carregando caixas…</div></div></section>
+</section>
+<footer>Monitoramento Ambiental <span>Dados reais fornecidos pelo banco MySQL</span></footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script src="./app.js"></script>
+</body></html>
